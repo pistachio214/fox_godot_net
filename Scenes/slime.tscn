@@ -1,0 +1,145 @@
+[gd_scene load_steps=22 format=3 uid="uid://dlj8vh67jsjyv"]
+
+[ext_resource type="Texture2D" uid="uid://df67nhtoacaq1" path="res://Assets/Sprites/Slimer.png" id="1_7ln2u"]
+[ext_resource type="Script" path="res://Scripts/Slime.cs" id="1_s4ohg"]
+[ext_resource type="Texture2D" uid="uid://5gbn55nlywl8" path="res://Assets/Sprites/SlimerDeath.png" id="2_cijen"]
+[ext_resource type="AudioStream" uid="uid://kqxxdv0mfpkv" path="res://Assets/Audio/EnemyDeath.mp3" id="4_gyloh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dh33h"]
+atlas = ExtResource("2_cijen")
+region = Rect2(0, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oa2c6"]
+atlas = ExtResource("2_cijen")
+region = Rect2(64, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sp73s"]
+atlas = ExtResource("2_cijen")
+region = Rect2(128, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_thojj"]
+atlas = ExtResource("2_cijen")
+region = Rect2(192, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sta2b"]
+atlas = ExtResource("2_cijen")
+region = Rect2(256, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_asove"]
+atlas = ExtResource("2_cijen")
+region = Rect2(320, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4damh"]
+atlas = ExtResource("2_cijen")
+region = Rect2(384, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lront"]
+atlas = ExtResource("1_7ln2u")
+region = Rect2(0, 0, 41, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j5m6q"]
+atlas = ExtResource("1_7ln2u")
+region = Rect2(41, 0, 41, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_746fe"]
+atlas = ExtResource("1_7ln2u")
+region = Rect2(82, 0, 41, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jpnc4"]
+atlas = ExtResource("1_7ln2u")
+region = Rect2(123, 0, 41, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2eexu"]
+atlas = ExtResource("1_7ln2u")
+region = Rect2(164, 0, 41, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l3egi"]
+atlas = ExtResource("1_7ln2u")
+region = Rect2(205, 0, 41, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uc6up"]
+atlas = ExtResource("1_7ln2u")
+region = Rect2(246, 0, 41, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t2xnj"]
+atlas = ExtResource("1_7ln2u")
+region = Rect2(287, 0, 41, 38)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0rch4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dh33h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oa2c6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sp73s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_thojj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sta2b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_asove")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4damh")
+}],
+"loop": false,
+"name": &"death",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lront")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j5m6q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_746fe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jpnc4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2eexu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l3egi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uc6up")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t2xnj")
+}],
+"loop": true,
+"name": &"idel",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_70ffq"]
+
+[node name="Slime" type="Area2D"]
+script = ExtResource("1_s4ohg")
+
+[node name="SlimeAnimatedSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_0rch4")
+animation = &"death"
+autoplay = "idel"
+
+[node name="SlimeCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(0, 9)
+shape = SubResource("CircleShape2D_70ffq")
+
+[node name="SlimeDeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_gyloh")
+
+[connection signal="area_entered" from="." to="." method="OnAreaExtered"]
+[connection signal="body_entered" from="." to="." method="OnBodyExtered"]
+[connection signal="animation_finished" from="SlimeAnimatedSprite" to="." method="OnAnimatedSpriteFinished"]

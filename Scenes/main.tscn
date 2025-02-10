@@ -1,0 +1,119 @@
+[gd_scene load_steps=7 format=3 uid="uid://cyipjvx3pcfj3"]
+
+[ext_resource type="Texture2D" uid="uid://cmro4ext1mkke" path="res://Assets/Sprites/ForestBackground.png" id="1_l0q23"]
+[ext_resource type="Script" path="res://Scripts/GameManager.cs" id="1_s83i0"]
+[ext_resource type="PackedScene" uid="uid://cthh6ukppigh6" path="res://Scenes/player.tscn" id="2_x7uuy"]
+[ext_resource type="PackedScene" uid="uid://dlj8vh67jsjyv" path="res://Scenes/slime.tscn" id="2_xfxpe"]
+[ext_resource type="FontFile" uid="uid://bvyjj5oaoxgr3" path="res://Assets/Uranus_Pixel_11Px.ttf" id="5_pglpt"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_2ynce"]
+
+[node name="Main" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_s83i0")
+slimeScene = ExtResource("2_xfxpe")
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="BackgroundLeft" type="Sprite2D" parent="Background"]
+position = Vector2(-119, 0)
+texture = ExtResource("1_l0q23")
+
+[node name="BackgroundRight" type="Sprite2D" parent="Background"]
+position = Vector2(121, 0)
+texture = ExtResource("1_l0q23")
+
+[node name="GameCamera" type="Camera2D" parent="."]
+scale = Vector2(0.276581, 0.258166)
+zoom = Vector2(2.4, 2.4)
+
+[node name="Player" parent="." instance=ExtResource("2_x7uuy")]
+position = Vector2(-200, 80)
+
+[node name="GameBounbary" type="Node2D" parent="."]
+
+[node name="BottomStatic" type="StaticBody2D" parent="GameBounbary"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameBounbary/BottomStatic"]
+position = Vector2(0, 131)
+shape = SubResource("WorldBoundaryShape2D_2ynce")
+
+[node name="TopStatic" type="StaticBody2D" parent="GameBounbary"]
+position = Vector2(0, 164)
+rotation = 3.14159
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameBounbary/TopStatic"]
+position = Vector2(0, 131)
+shape = SubResource("WorldBoundaryShape2D_2ynce")
+
+[node name="LeftStatic" type="StaticBody2D" parent="GameBounbary"]
+position = Vector2(-103, 0)
+rotation = 1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameBounbary/LeftStatic"]
+position = Vector2(0, 131)
+shape = SubResource("WorldBoundaryShape2D_2ynce")
+
+[node name="RightStatic" type="StaticBody2D" parent="GameBounbary"]
+position = Vector2(104, 0)
+rotation = -1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameBounbary/RightStatic"]
+position = Vector2(0, 131)
+shape = SubResource("WorldBoundaryShape2D_2ynce")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer"]
+offset_left = 10.0
+offset_top = 15.0
+offset_right = 165.0
+offset_bottom = 64.0
+theme_override_fonts/font = ExtResource("5_pglpt")
+theme_override_font_sizes/font_size = 48
+text = "Score: 0"
+
+[node name="GameOverLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -265.5
+offset_top = -60.0
+offset_right = 265.5
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0.360784, 0.545098, 0.247059, 1)
+theme_override_constants/outline_size = 60
+theme_override_fonts/font = ExtResource("5_pglpt")
+theme_override_font_sizes/font_size = 120
+text = "Game Over"
+
+[node name="GameByPsy" type="Label" parent="CanvasLayer/GameOverLabel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -265.5
+offset_top = 56.0
+offset_right = 265.5
+offset_bottom = 176.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0.360784, 0.545098, 0.247059, 1)
+theme_override_constants/outline_size = 60
+theme_override_fonts/font = ExtResource("5_pglpt")
+theme_override_font_sizes/font_size = 60
+text = "Game By Pengsy
+"
+horizontal_alignment = 1
+
+[connection signal="timeout" from="Timer" to="." method="_SpawnSlime"]
